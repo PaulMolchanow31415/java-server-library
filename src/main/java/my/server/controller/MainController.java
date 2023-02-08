@@ -1,7 +1,7 @@
 package my.server.controller;
 
 import my.server.entity.BookEntity;
-import my.server.response.BookResponse;
+import my.server.response.BookListResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     @PostMapping
     public ResponseEntity<?> getBook(@RequestBody BookEntity book){
-        return ResponseEntity.ok(new BookResponse(book));
+        return ResponseEntity.ok(new BookListResponse(book));
     }
 }
