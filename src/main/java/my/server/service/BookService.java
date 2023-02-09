@@ -1,13 +1,13 @@
 package my.server.service;
 
 import my.server.entity.BookEntity;
-import my.server.repo.BookRepo;
+import my.server.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
-    private final BookRepo repo;
-    public BookService(BookRepo repo) {
+    private final BookRepository repo;
+    public BookService(BookRepository repo) {
         this.repo = repo;
     }
     public void save(BookEntity book) { repo.save(book); }
