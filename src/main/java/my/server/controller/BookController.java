@@ -1,12 +1,11 @@
 package my.server.controller;
 
 import my.server.entity.BookEntity;
-import my.server.exception.EmptyDataBaseException;
-import my.server.exception.IllegalBookDataException;
 import my.server.response.BaseResponse;
+import my.server.response.BookEntityResponse;
 import my.server.response.BookListResponse;
 import my.server.service.BookService;
-import my.server.utils.BookUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService service;
 
-    public BookController(BookService service) { this.service = service; }
+    public BookController(BookService service) {
+        this.service = service;
+    }
 
     @PostMapping("/add")
-    public ResponseEntity <BaseResponse> registration(@RequestBody BookEntity data) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> registration(@RequestBody BookEntity data) {
         try {
-            if (BookUtils.fullValidate(data)){
-                throw new IllegalBookDataException("Ошибки в данных книги");
-            } else {
-                service.save(data);
-            }
-
+            service.save(data);
             return ResponseEntity.ok(new BaseResponse(true, "Книга добавлена"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
@@ -35,14 +32,10 @@ public class BookController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity <BaseResponse> update(@RequestBody BookEntity data) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BaseResponse> update(@RequestBody BookEntity data) {
         try {
-            if (BookUtils.fullValidate(data)){
-                throw new IllegalBookDataException("Ошибки в данных книги");
-            } else {
-                service.save(data);
-            }
-
+            service.save(data);
             return ResponseEntity.ok(new BaseResponse(true, "В книгу внесены изменения"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
@@ -52,12 +45,9 @@ public class BookController {
     }
 
     @GetMapping("/all")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BaseResponse> getAll() {
         try {
-            if (!service.getAll().iterator().hasNext()) {
-                throw new EmptyDataBaseException("База пуста");
-            }
-
             return ResponseEntity.ok(new BookListResponse(service.getAll()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
@@ -66,18 +56,76 @@ public class BookController {
         }
     }
 
-   /* @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity <BaseResponse> delete() {
+    @GetMapping("/search-by-title/{title}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> getBooksByTitle(@PathVariable String title) {
         try {
-            if (!service.getAll().iterator().hasNext()) {
-                throw new EmptyDataBaseException("База пуста");
-            }
-
-            return ResponseEntity.ok(new BookListResponse(service.delete(id);))
-        } catch (EmptyDataBaseException e){
+            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByTitle(title)));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {
             System.out.println("Операция завершена");
         }
-    }*/
+    }
+
+    @GetMapping("/search-by-author/{name}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> getBooksByAuthorName(@PathVariable String name) {
+        try {
+            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByAuthor(name)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Операция завершена");
+        }
+    }
+
+    @GetMapping("/search-by-publisher/{publisher}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> getBooksByPublisher(@PathVariable String publisher) {
+        try {
+            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByPublisher(publisher)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Операция завершена");
+        }
+    }
+
+    @GetMapping("/search-by-year/{year}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> getBooksByYearPub(@PathVariable String year) {
+        try {
+            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByYearPub(year)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Операция завершена");
+        }
+    }
+
+    @GetMapping("/search-by-kind/{kind}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> getBooksByKind(@PathVariable String kind) {
+        try {
+            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByKind(kind)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Операция завершена");
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BaseResponse> delete(@PathVariable("id") Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.ok(new BaseResponse(true, "Книга удалена из БД"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Операция завершена");
+        }
+    }
 }

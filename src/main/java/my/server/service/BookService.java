@@ -6,11 +6,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
-    private final BookRepository repo;
-    public BookService(BookRepository repo) {
-        this.repo = repo;
+    private final BookRepository repository;
+    public BookService(BookRepository repository) {
+        this.repository = repository;
     }
-    public void save(BookEntity book) { repo.save(book); }
-    public void delete(Long id) { repo.deleteById(id); }
-    public Iterable<BookEntity> getAll() { return repo.findAll(); }
+    public void save(BookEntity book) { repository.save(book); }
+    public void delete(Long id) { repository.deleteById(id); }
+    public Iterable<BookEntity> getAll() { return repository.findAll(); }
+    public Iterable<BookEntity> getBooksByTitle(String title) { return repository.findBookEntitiesByTitle(title); }
+    public Iterable<BookEntity> getBooksByAuthor(String name) { return repository.findBookEntitiesByAuthor(name); }
+    public Iterable<BookEntity> getBooksByPublisher(String publisher) { return repository.findBookEntitiesByPublisher(publisher); }
+    public Iterable<BookEntity> getBooksByYearPub(String year) { return repository.findBookEntitiesByYearPub(year); }
+    public Iterable<BookEntity> getBooksByKind(String kind) { return repository.findBookEntitiesByKind(kind); }
 }
