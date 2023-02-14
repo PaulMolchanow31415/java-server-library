@@ -68,30 +68,6 @@ public class BookController {
         }
     }
 
-    @GetMapping("/search-by-author/{name}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BaseResponse> getBooksByAuthorName(@PathVariable String name) {
-        try {
-            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByAuthor(name)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Операция завершена");
-        }
-    }
-
-    @GetMapping("/search-by-publisher/{publisher}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BaseResponse> getBooksByPublisher(@PathVariable String publisher) {
-        try {
-            return ResponseEntity.ok(new BookEntityResponse(service.getBooksByPublisher(publisher)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Операция завершена");
-        }
-    }
-
     @GetMapping("/search-by-year/{year}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BaseResponse> getBooksByYearPub(@PathVariable String year) {

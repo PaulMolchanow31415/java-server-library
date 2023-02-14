@@ -7,21 +7,29 @@ public class ValidationUtils {
     public static void validateBook(BookEntity book) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
         String title = book.getTitle();
-        String author = book.getAuthor();
-        String publisher = book.getPublisher();
+        String authorName = book.getAuthor().getName();
+        String authorSurname = book.getAuthor().getSurname();
+        String publisherName = book.getPublisher().getName();
+        String publisherCity = book.getPublisher().getCity();
         String kind = book.getKind();
         String year = book.getYearPub();
 
-        if (title.isBlank() || title.length() < 3 || title.length() > 255) {
+        if (title.isBlank() || title.matches("\\w{2,256}")) {
             errorsMessage.append("Не правильно введено заглавие").append("|");
         }
-        if (author.isBlank() || !author.matches("\\w{2,64}\\s\\w{2,64}")) {
-            errorsMessage.append("Не правильно введено название автора").append("|");
+        if (authorName.isBlank() || !authorName.matches("[A-Z|А-Я][a-z|а-я]{2,64}")) {
+            errorsMessage.append("Не правильно введено имя автора").append("|");
         }
-        if (publisher.isBlank() || publisher.length() < 3 || publisher.length() > 255) {
+        if (authorSurname.isBlank() || !authorSurname.matches("[A-Z|А-Я][a-z|а-я]{2,64}")) {
+            errorsMessage.append("Не правильно введена фамилия автора").append("|");
+        }
+        if (publisherName.isBlank() || !publisherName.matches("\\w{2,64}")) {
             errorsMessage.append("Не правильно введен издатель").append("|");
         }
-        if (kind.isBlank() || kind.length() < 3 || kind.length() > 255) {
+        if (publisherCity.isBlank() || !publisherCity.matches("\\w{2,256}")) {
+            errorsMessage.append("Не правильно введен город издателя").append("|");
+        }
+        if (kind.isBlank() || !kind.matches("\\w{3,64}")) {
             errorsMessage.append("Не правильно введен жанр книги").append("|");
         }
         if (year.isBlank() || !year.matches("^\\d{4}$")) {
