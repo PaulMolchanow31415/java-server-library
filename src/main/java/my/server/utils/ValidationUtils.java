@@ -12,19 +12,19 @@ public class ValidationUtils {
         String kind = book.getKind();
         String year = book.getYearPub();
 
-        if (title == null || title.isBlank() || title.length() < 3 || title.length() > 255) {
+        if (title.isBlank() || title.length() < 3 || title.length() > 255) {
             errorsMessage.append("Не правильно введено заглавие").append("|");
         }
-        if (author == null || author.isBlank() || !author.matches("\\w{2,64}\\s\\w{2,64}")) {
+        if (author.isBlank() || !author.matches("\\w{2,64}\\s\\w{2,64}")) {
             errorsMessage.append("Не правильно введено название автора").append("|");
         }
-        if (publisher == null || publisher.isBlank() || publisher.length() < 3 || publisher.length() > 255) {
+        if (publisher.isBlank() || publisher.length() < 3 || publisher.length() > 255) {
             errorsMessage.append("Не правильно введен издатель").append("|");
         }
-        if (kind == null || kind.isBlank() || kind.length() < 3 || kind.length() > 255) {
+        if (kind.isBlank() || kind.length() < 3 || kind.length() > 255) {
             errorsMessage.append("Не правильно введен жанр книги").append("|");
         }
-        if (year == null || year.isBlank() || !year.matches("^\\d{4}$")) {
+        if (year.isBlank() || !year.matches("^\\d{4}$")) {
             errorsMessage.append("Не правильно введен год издания").append("|");
         }
         if (errorsMessage.length() > 0) {
