@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 import my.server.entity.BookEntity;
 import lombok.Data;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class BookListResponse extends BaseResponse {
     private Iterable<BookEntity> data;
 

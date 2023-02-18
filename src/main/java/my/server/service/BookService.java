@@ -16,11 +16,7 @@ public class BookService {
         ValidationUtils.validateBook(book);
         repository.save(book);
     }
+
     public void delete(Long id) { repository.deleteById(id); }
     public Iterable<BookEntity> getAll() { return repository.findAll(); }
-    public Iterable<BookEntity> getBooksByTitle(String title) { return repository.findBookEntitiesByTitle(title); }
-    public Iterable<BookEntity> getBooksByAuthor(String name) { return repository.findBookEntitiesByAuthor(name); }
-    public Iterable<BookEntity> getBooksByPublisher(String publisher) { return repository.findBookEntitiesByPublisher(publisher); }
-    public Iterable<BookEntity> getBooksByYearPub(String year) { return repository.findBookEntitiesByYearPub(year); }
-    public Iterable<BookEntity> getBooksByKind(String kind) { return repository.findBookEntitiesByKind(kind); }
 }
