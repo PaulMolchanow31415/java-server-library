@@ -14,8 +14,8 @@ import javax.validation.constraints.*;
 @RequiredArgsConstructor
 @Table(name = "books")
 public class BookEntity {
-    @Column(name = "book_id")
     @Id
+    @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -23,14 +23,13 @@ public class BookEntity {
     @Size(min = 4, max = 255, message = "Размер должен быть между 3 и 32 символами")
     private String title;
 
-    @NotBlank(message = "Имя автора не должно быть пустым или содержать только пробелы")
-    @Size(min = 2, max = 255, message = "Размер должен быть между 2 и 64 символами")
-    @Pattern(regexp = "[A-Z|А-Я][a-z|а-я]{2,10}", message = "Некорректное имя автора")
-    private String author;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private AuthorEntity author;
 
-    @NotBlank(message = "Название издательства не должено быть пустым или содержать только пробелы")
-    @Size(min = 2, max = 255, message = "Размер должен быть между 2 и 64 символами")
-    private String publisher;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "publisher_id")
+    private PublisherEntity publisher;
 
     @Pattern(regexp = "^\\d{4}", message = "В дате издательства может быть только 4 цифры")
     private String yearPub;
