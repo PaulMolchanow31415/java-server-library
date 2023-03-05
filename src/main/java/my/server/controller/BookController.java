@@ -45,7 +45,7 @@ public class BookController {
         }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BaseResponse> update(@RequestBody BookEntity data) {
         try {

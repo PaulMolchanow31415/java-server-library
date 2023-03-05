@@ -11,8 +11,8 @@ public class ValidationUtils {
         String title = book.getTitle();
         String authorName = book.getAuthor().getName();
         String authorSurname = book.getAuthor().getSurname();
-        String publisherName = book.getPublisher().getName();
-        String publisherCity = book.getPublisher().getCity();
+        String publisherName = book.getPublishing().getName();
+        String publisherCity = book.getPublishing().getCity();
         String kind = book.getKind();
         String year = book.getYearPub();
 
