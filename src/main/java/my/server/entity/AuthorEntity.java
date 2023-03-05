@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "author")
+@Table(name = "AUTHOR")
 public class AuthorEntity {
     @Id
     @Column(name = "author_id")

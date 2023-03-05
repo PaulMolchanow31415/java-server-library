@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "books")
+@Table(name = "BOOK")
 public class BookEntity {
     @Id
     @Column(name = "book_id")

@@ -4,7 +4,10 @@ import my.server.entity.BookEntity;
 import my.server.exception.ValidationException;
 import my.server.repositories.BookRepository;
 import my.server.utils.ValidationUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
 
 @Service
 public class BookService {

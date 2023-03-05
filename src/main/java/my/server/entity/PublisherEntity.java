@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "publisher")
+@Table(name = "PUBLISHER")
 public class PublisherEntity {
     @Id
     @Column(name = "publisher_id")

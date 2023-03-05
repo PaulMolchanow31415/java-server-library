@@ -1,13 +1,15 @@
 package my.server.utils;
 
 import my.server.entity.BookEntity;
+import my.server.entity.UserEntity;
 import my.server.exception.ValidationException;
 
 public class ValidationUtils {
+    public static final String authorRegex = "\\w{2,64}";
+    public static final String yearRegex = "^\\d{4}$";
+
     public static void validateBook(BookEntity book) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
-        String authorRegex = "\\w{2,64}";
-        String yearRegex = "^\\d{4}$";
         String title = book.getTitle();
         String authorName = book.getAuthor().getName();
         String authorSurname = book.getAuthor().getSurname();
@@ -37,6 +39,19 @@ public class ValidationUtils {
         if (year == null || year.isBlank() || !year.matches(yearRegex)) {
             errorsMessage.append("Не правильно введен год издания\n");
         }
+
+        if (errorsMessage.length() > 0) {
+            throw new ValidationException(errorsMessage.toString());
+        }
+    }
+
+    public static void validateUser(UserEntity user) throws ValidationException {
+        StringBuilder errorsMessage = new StringBuilder();
+        String login =  user.getUsername();
+        String password = user.getPassword();
+
+        if (login == null || login.isBlank()) errorsMessage.append("Логин не должен быть пустой\n");
+        if (password == null || password.isBlank()) errorsMessage.append("Пароль не должен быть пустой\n");
 
         if (errorsMessage.length() > 0) {
             throw new ValidationException(errorsMessage.toString());
