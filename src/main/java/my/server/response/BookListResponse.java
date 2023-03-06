@@ -1,9 +1,8 @@
 package my.server.response;
 
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import my.server.entity.BookEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import my.server.entity.BookEntity;
 
 @Data
 @EqualsAndHashCode(callSuper = false)

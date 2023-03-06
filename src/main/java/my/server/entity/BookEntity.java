@@ -18,15 +18,15 @@ public class BookEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Заголовок не должен быть пустым или содержать только пробелы")
-    @Size(min = 4, max = 255, message = "Размер должен быть между 3 и 255 символами")
+    @Size(min = 3, max = 255, message = "Размер должен быть между 3 и 255 символами")
     private String title;
-    @Size(min = 4, max = 255, message = "Размер должен быть между 3 и 255 символами")
-    private String origin;
     @Pattern(regexp = "^\\d{4}$", message = "В дате издательства может быть только 4 цифры")
     private String yearPub;
     @NotBlank(message = "Раздел книги не должен быть пустым или содержать только пробелы")
-    @Size(min = 2, max = 32, message = "Размер должен быть между 2 и 32 символами")
+    @Size(min = 3, max = 255, message = "Размер должен быть между 3 и 255 символами")
     private String section;
+    @Size(min = 3, max = 255, message = "Размер строки происхождения книги должен быть между 3 и 255 символами")
+    private String origin;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id")
