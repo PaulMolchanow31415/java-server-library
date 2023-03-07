@@ -8,7 +8,7 @@ public class ValidationUtils {
         StringBuilder errorsMessage = new StringBuilder();
 
         /* regular expressions */
-        String authorRegex = "\\w{2,64}";
+        String authorRegex = "^[A-Z|А-Я][a-z|а-я]{2,32}$";
         String yearRegex = "^\\d{4}$";
 
         /* unique */
