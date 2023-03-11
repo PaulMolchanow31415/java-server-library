@@ -26,6 +26,6 @@ public class PublisherEntity {
     @Size(min = 3, max = 255, message = "Длина названия города должена быть в диапазоне от 3 и 255 символов")
     private String city;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publishing")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher")
     private List<BookEntity> publishedBooks;
 }

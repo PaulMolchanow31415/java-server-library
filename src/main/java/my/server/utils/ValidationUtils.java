@@ -23,8 +23,8 @@ public class ValidationUtils {
         String authorPatronymic = book.getAuthor().getPatronymic();
 
         /* publisher */
-        String publisherName = book.getPublishing().getName();
-        String publisherCity = book.getPublishing().getCity();
+        String publisherName = book.getPublisher().getName();
+        String publisherCity = book.getPublisher().getCity();
 
         /* unique */
         if (title == null || title.isBlank() || title.length() < 3 || title.length() > 255) {

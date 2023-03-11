@@ -32,6 +32,18 @@ public class BookController {
         }
     }
 
+    @GetMapping("/find/{sought}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BaseResponse> find(@PathVariable String sought) {
+        try {
+            return ResponseEntity.ok(new BookListResponse(service.find(sought)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Поиск данных в БД завершен");
+        }
+    }
+
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookEntityResponse> registration(@Valid @RequestBody BookEntity data) {

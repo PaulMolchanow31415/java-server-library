@@ -34,5 +34,5 @@ public class BookEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "publisher_id")
-    private PublisherEntity publishing;
+    private PublisherEntity publisher;
 }
