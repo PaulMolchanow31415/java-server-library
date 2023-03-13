@@ -21,7 +21,6 @@ public class BookController {
     }
 
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BaseResponse> getAll() {
         try {
             return ResponseEntity.ok(new BookListResponse(service.getAll()));
@@ -33,7 +32,6 @@ public class BookController {
     }
 
     @GetMapping("/find/{sought}")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BaseResponse> find(@PathVariable String sought) {
         try {
             return ResponseEntity.ok(new BookListResponse(service.find(sought)));
@@ -45,7 +43,6 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookEntityResponse> registration(@Valid @RequestBody BookEntity data) {
         try {
             service.save(data);
@@ -58,7 +55,6 @@ public class BookController {
     }
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BaseResponse> update(@RequestBody BookEntity data) {
         try {
             service.save(data);
@@ -71,7 +67,6 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BaseResponse> delete(@PathVariable("id") Long id) {
         try {
             service.delete(id);
