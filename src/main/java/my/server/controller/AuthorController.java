@@ -1,9 +1,8 @@
 package my.server.controller;
 
 import my.server.entity.BookEntity;
-import my.server.response.BaseResponse;
-import my.server.response.BookEntityResponse;
-import my.server.response.BookListResponse;
+import my.server.response.*;
+import my.server.service.AuthorService;
 import my.server.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/book")
-public class BookController {
-    private final BookService service;
+@RequestMapping("api/v1/author")
+public class AuthorController {
+    private final AuthorService service;
 
-    public BookController(BookService service) {
+    public AuthorController(AuthorService service) {
         this.service = service;
     }
 
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
         try {
-            return ResponseEntity.ok(new BookListResponse(service.getAll()));
+            return ResponseEntity.ok(new AuthorListResponse(service.getAll()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {
@@ -30,10 +29,10 @@ public class BookController {
         }
     }
 
-    @GetMapping("/find") /* api/v1/book/find?query=abc */
+    @GetMapping("/find")
     public ResponseEntity<BaseResponse> find(@RequestParam String query) {
         try {
-            return ResponseEntity.ok(new BookListResponse(service.find(query)));
+            return ResponseEntity.ok(new AuthorEntityResponse(service.find(query)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {

@@ -1,15 +1,16 @@
 package my.server.utils;
 
+import my.server.entity.AuthorEntity;
 import my.server.entity.BookEntity;
+import my.server.entity.PublisherEntity;
 import my.server.exception.ValidationException;
 
 public class ValidationUtils {
+    public static final String authorRegex = "^[A-Z|А-Я][a-z|а-я]{2,32}$";
+    public static final String yearRegex = "^\\d{4}$";
+
     public static void validateBook(BookEntity book) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
-
-        /* regular expressions */
-        String authorRegex = "^[A-Z|А-Я][a-z|а-я]{2,32}$";
-        String yearRegex = "^\\d{4}$";
 
         /* unique */
         String title = book.getTitle();
@@ -50,10 +51,50 @@ public class ValidationUtils {
             errorsMessage.append("Не правильно введена фамилия автора\n");
         }
         /* publisher */
-        if (publisherName == null || publisherName.isBlank() || publisherName.length() < 3 || publisherName.length() > 255) {
+        if (publisherName == null || publisherName.isBlank()
+                || publisherName.length() < 3 || publisherName.length() > 255) {
             errorsMessage.append("Не правильно введено название издателя\n");
         }
-        if (publisherCity == null || publisherCity.isBlank() || publisherCity.length() < 3 || publisherCity.length() > 255) {
+        if (publisherCity == null || publisherCity.isBlank()
+                || publisherCity.length() < 3 || publisherCity.length() > 255) {
+            errorsMessage.append("Не правильно введен город издателя\n");
+        }
+
+        if (errorsMessage.length() > 0) {
+            throw new ValidationException(errorsMessage.toString());
+        }
+    }
+
+    public static void validateAuthor(AuthorEntity author) throws ValidationException {
+        StringBuilder errorsMessage = new StringBuilder();
+
+        if (author.getName() == null
+                || author.getName().isBlank() || !author.getName().matches(authorRegex)) {
+            errorsMessage.append("Не правильно введено имя автора\n");
+        }
+        if (author.getSurname() == null
+                || author.getSurname().isBlank() || !author.getSurname().matches(authorRegex)) {
+            errorsMessage.append("Не правильно введена фамилия автора\n");
+        }
+        if (author.getPatronymic() == null
+                || author.getPatronymic().isBlank() || !author.getPatronymic().matches(authorRegex)) {
+            errorsMessage.append("Не правильно введена фамилия автора\n");
+        }
+
+        if (errorsMessage.length() > 0) {
+            throw new ValidationException(errorsMessage.toString());
+        }
+    }
+
+    public static void validatePublisher(PublisherEntity publisher) throws ValidationException {
+        StringBuilder errorsMessage = new StringBuilder();
+
+        if (publisher.getName() == null || publisher.getName().isBlank()
+                || publisher.getName().length() < 3 || publisher.getName().length() > 255) {
+            errorsMessage.append("Не правильно введено название издателя\n");
+        }
+        if (publisher.getCity() == null || publisher.getCity().isBlank()
+                || publisher.getCity().length() < 3 || publisher.getCity().length() > 255) {
             errorsMessage.append("Не правильно введен город издателя\n");
         }
 
