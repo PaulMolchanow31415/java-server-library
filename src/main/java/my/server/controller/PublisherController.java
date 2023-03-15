@@ -1,28 +1,28 @@
 package my.server.controller;
 
-import my.server.entity.BookEntity;
+import my.server.entity.PublisherEntity;
 import my.server.response.BaseResponse;
-import my.server.response.BookEntityResponse;
-import my.server.response.BookListResponse;
-import my.server.service.BookService;
+import my.server.response.PublisherEntityResponse;
+import my.server.response.PublisherListResponse;
+import my.server.service.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/book")
-public class BookController {
-    private final BookService service;
+@RequestMapping("api/v1/publisher")
+public class PublisherController {
+    private final PublisherService service;
 
-    private BookController(BookService service) {
+    private PublisherController(PublisherService service) {
         this.service = service;
     }
 
     @GetMapping("/all")
     private ResponseEntity<BaseResponse> getAll() {
         try {
-            return ResponseEntity.ok(new BookListResponse(service.getAll()));
+            return ResponseEntity.ok(new PublisherListResponse(service.getAll()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {
@@ -30,11 +30,11 @@ public class BookController {
         }
     }
 
-    @GetMapping("/retrieveAll")
-    /* api/v1/book/retrieveAll?query=abc */
-    private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
+    @GetMapping("/extractData")
+    /* api/v1/publisher/extractData?query=abc */
+    private ResponseEntity<BaseResponse> extractData(@RequestParam String query) {
         try {
-            return ResponseEntity.ok(new BookListResponse(service.findAll(query)));
+            return ResponseEntity.ok(new PublisherListResponse(service.findAll(query)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {
@@ -43,22 +43,22 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    private ResponseEntity<BookEntityResponse> registration(@Valid @RequestBody BookEntity data) {
+    private ResponseEntity<PublisherEntityResponse> create(@Valid @RequestBody PublisherEntity data) {
         try {
             service.save(data);
-            return ResponseEntity.ok(new BookEntityResponse(true, "Книга добавлена", data));
+            return ResponseEntity.ok(new PublisherEntityResponse(true, "Издатель добавлен", data));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BookEntityResponse(false, e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new PublisherEntityResponse(false, e.getMessage(), null));
         } finally {
             System.out.println("Сохранение завершено");
         }
     }
 
     @PutMapping("/update")
-    private ResponseEntity<BaseResponse> update(@RequestBody BookEntity data) {
+    private ResponseEntity<BaseResponse> update(@RequestBody PublisherEntity data) {
         try {
             service.save(data);
-            return ResponseEntity.ok(new BaseResponse(true, "В книгу внесены изменения"));
+            return ResponseEntity.ok(new BaseResponse(true, "Издатель успешно изменен"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {
@@ -70,7 +70,7 @@ public class BookController {
     private ResponseEntity<BaseResponse> delete(@RequestParam Long id, @RequestParam String param) {
         try {
             service.delete(id, param);
-            return ResponseEntity.ok(new BaseResponse(true, "Книга удалена из БД"));
+            return ResponseEntity.ok(new BaseResponse(true, "Издатель удален из БД"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         } finally {

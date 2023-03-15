@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import my.server.entity.AuthorEntity;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class AuthorListResponse extends BaseResponse {
     private Iterable<AuthorEntity> data;
 

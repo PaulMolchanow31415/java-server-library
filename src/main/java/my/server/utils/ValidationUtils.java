@@ -9,7 +9,7 @@ public class ValidationUtils {
     public static final String authorRegex = "^[A-Z|А-Я][a-z|а-я]{2,32}$";
     public static final String yearRegex = "^\\d{4}$";
 
-    public static void validateBook(BookEntity book) throws ValidationException {
+    public static void validate(BookEntity book) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
 
         /* unique */
@@ -35,7 +35,7 @@ public class ValidationUtils {
             errorsMessage.append("Не правильно введена секция\n");
         }
         if (origin == null || origin.isBlank() || origin.length() < 3 || origin.length() > 255) {
-            errorsMessage.append("Не правильно введено происхождение\n");
+            errorsMessage.append("Не правильно введено происхождение книги\n");
         }
         if (year == null || year.isBlank() || !year.matches(yearRegex)) {
             errorsMessage.append("Не правильно введен год издания\n");
@@ -48,7 +48,7 @@ public class ValidationUtils {
             errorsMessage.append("Не правильно введена фамилия автора\n");
         }
         if (authorPatronymic == null || authorPatronymic.isBlank() || !authorPatronymic.matches(authorRegex)) {
-            errorsMessage.append("Не правильно введена фамилия автора\n");
+            errorsMessage.append("Не правильно введено отчество автора\n");
         }
         /* publisher */
         if (publisherName == null || publisherName.isBlank()
@@ -65,7 +65,7 @@ public class ValidationUtils {
         }
     }
 
-    public static void validateAuthor(AuthorEntity author) throws ValidationException {
+    public static void validate(AuthorEntity author) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
 
         if (author.getName() == null
@@ -78,7 +78,7 @@ public class ValidationUtils {
         }
         if (author.getPatronymic() == null
                 || author.getPatronymic().isBlank() || !author.getPatronymic().matches(authorRegex)) {
-            errorsMessage.append("Не правильно введена фамилия автора\n");
+            errorsMessage.append("Не правильно введено отчество автора\n");
         }
 
         if (errorsMessage.length() > 0) {
@@ -86,7 +86,7 @@ public class ValidationUtils {
         }
     }
 
-    public static void validatePublisher(PublisherEntity publisher) throws ValidationException {
+    public static void validate(PublisherEntity publisher) throws ValidationException {
         StringBuilder errorsMessage = new StringBuilder();
 
         if (publisher.getName() == null || publisher.getName().isBlank()
@@ -100,6 +100,19 @@ public class ValidationUtils {
 
         if (errorsMessage.length() > 0) {
             throw new ValidationException(errorsMessage.toString());
+        }
+    }
+
+    public static void validate(Object entity) throws ValidationException, ClassNotFoundException {
+        if (entity instanceof BookEntity) {
+            validate((BookEntity) entity);
+        } else if (entity instanceof AuthorEntity) {
+            validate((AuthorEntity) entity);
+        } else if (entity instanceof PublisherEntity) {
+            validate((PublisherEntity) entity);
+        } else {
+            throw new ClassNotFoundException("Валидатора обработчика для данного класса не существует "
+                    + Object.class.getName() + " " + Object.class.getSuperclass());
         }
     }
 }
