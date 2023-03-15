@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,6 +31,6 @@ public class AuthorEntity {
     @Pattern(regexp = "^[A-Z|А-Я][a-z|а-я]{2,32}$", message = "Некорректное отчество автора")
     private String patronymic;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private List<BookEntity> writtenBooks;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", orphanRemoval = true)
+    private Set<BookEntity> writtenBooks = new HashSet<>();
 }

@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,6 +27,6 @@ public class PublisherEntity {
     @Size(min = 3, max = 255, message = "Длина названия города должена быть в диапазоне от 3 и 255 символов")
     private String city;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher")
-    private List<BookEntity> publishedBooks;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher", orphanRemoval = true)
+    private Set<BookEntity> publishedBooks = new HashSet<>();
 }

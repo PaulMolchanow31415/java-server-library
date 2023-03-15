@@ -5,7 +5,7 @@ import my.server.repositories.PublisherEntityRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PublisherService extends BaseService<PublisherEntity, PublisherEntityRepository> {
+public class PublisherService extends AbstractService<PublisherEntity, PublisherEntityRepository> {
     public PublisherService(PublisherEntityRepository repository) {
         super(repository);
     }

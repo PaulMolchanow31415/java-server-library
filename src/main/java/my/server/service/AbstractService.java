@@ -5,11 +5,11 @@ import my.server.repositories.EntityRepository;
 import my.server.utils.ValidationUtils;
 import org.springframework.data.repository.CrudRepository;
 
-public abstract class BaseService
+public abstract class AbstractService
         <T, R extends CrudRepository<T, Long> & EntityRepository<T>> {
     private final R repository;
 
-    public BaseService(R repository) {
+    public AbstractService(R repository) {
         this.repository = repository;
     }
 

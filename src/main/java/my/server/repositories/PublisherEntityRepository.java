@@ -17,7 +17,7 @@ public interface PublisherEntityRepository
     Iterable<PublisherEntity> findAllByParam(String sought);
 
     @Transient(value = false)
-    @Modifying(clearAutomatically = true)
+    @Modifying
     @Query("""
             delete from PublisherEntity p
             where p.name like ?1

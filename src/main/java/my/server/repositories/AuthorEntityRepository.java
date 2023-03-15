@@ -18,7 +18,7 @@ public interface AuthorEntityRepository
     Iterable<AuthorEntity> findAllByParam(String sought);
 
     @Transient(value = false)
-    @Modifying(clearAutomatically = true)
+    @Modifying
     @Query("""
             delete from AuthorEntity a
             where a.name like ?1
