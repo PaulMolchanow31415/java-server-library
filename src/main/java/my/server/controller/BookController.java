@@ -67,7 +67,8 @@ public class BookController {
     }
 
     @DeleteMapping("/delete")
-    private ResponseEntity<BaseResponse> delete(@RequestParam Long id, @RequestParam String param) {
+    private ResponseEntity<BaseResponse> delete(@RequestParam(required = false) Long id,
+                                                @RequestParam(required = false) String param) {
         try {
             service.delete(id, param);
             return ResponseEntity.ok(new BaseResponse(true, "Книга удалена из БД"));

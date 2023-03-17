@@ -19,13 +19,9 @@ public class ValidationUtils {
         String year = book.getYearPub();
 
         /* author */
-        String authorName = book.getAuthor().getName();
-        String authorSurname = book.getAuthor().getSurname();
-        String authorPatronymic = book.getAuthor().getPatronymic();
-
+        Long authorId = book.getAuthor().getId();
         /* publisher */
-        String publisherName = book.getPublisher().getName();
-        String publisherCity = book.getPublisher().getCity();
+        Long publisherId = book.getPublisher().getId();
 
         /* unique */
         if (title == null || title.isBlank() || title.length() < 3 || title.length() > 255) {
@@ -40,24 +36,11 @@ public class ValidationUtils {
         if (year == null || year.isBlank() || !year.matches(yearRegex)) {
             errorsMessage.append("Не правильно введен год издания\n");
         }
-        /* author */
-        if (authorName == null || authorName.isBlank() || !authorName.matches(authorRegex)) {
-            errorsMessage.append("Не правильно введено имя автора\n");
+        if (authorId == null) {
+            errorsMessage.append("Поле автора не должно быть пустым\n");
         }
-        if (authorSurname == null || authorSurname.isBlank() || !authorSurname.matches(authorRegex)) {
-            errorsMessage.append("Не правильно введена фамилия автора\n");
-        }
-        if (authorPatronymic == null || authorPatronymic.isBlank() || !authorPatronymic.matches(authorRegex)) {
-            errorsMessage.append("Не правильно введено отчество автора\n");
-        }
-        /* publisher */
-        if (publisherName == null || publisherName.isBlank()
-                || publisherName.length() < 3 || publisherName.length() > 255) {
-            errorsMessage.append("Не правильно введено название издателя\n");
-        }
-        if (publisherCity == null || publisherCity.isBlank()
-                || publisherCity.length() < 3 || publisherCity.length() > 255) {
-            errorsMessage.append("Не правильно введен город издателя\n");
+        if (publisherId == null) {
+            errorsMessage.append("Поле издательства не должно быть пустым\n");
         }
 
         if (errorsMessage.length() > 0) {
