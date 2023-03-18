@@ -30,8 +30,8 @@ public class PublisherController {
         }
     }
 
-    @GetMapping("/extractData")
-    /* api/v1/publisher/extractData?query=abc */
+    @GetMapping("/retrieveAll")
+    /* api/v1/publisher/retrieveAll?query=abc */
     private ResponseEntity<BaseResponse> extractData(@RequestParam String query) {
         try {
             return ResponseEntity.ok(new PublisherListResponse(service.findAll(query)));

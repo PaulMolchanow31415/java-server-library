@@ -19,7 +19,7 @@ public class AuthorController {
         this.service = service;
     }
 
-    @GetMapping("/retrieveSuitable")
+    @GetMapping("/retrieveAll")
     private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
         /* api/v1/author/retrieveSuitable?query=abc */
         try {
