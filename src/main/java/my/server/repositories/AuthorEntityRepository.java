@@ -4,9 +4,11 @@ import my.server.entity.AuthorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.beans.Transient;
+import javax.transaction.Transactional;
 
+@Repository
 public interface AuthorEntityRepository
         extends JpaRepository<AuthorEntity, Long>, EntityRepository<AuthorEntity> {
     @Query("""
@@ -17,8 +19,8 @@ public interface AuthorEntityRepository
             """)
     Iterable<AuthorEntity> findAllByParam(String sought);
 
-    @Transient(value = false)
     @Modifying
+    @Transactional
     @Query("""
             delete from AuthorEntity a
             where a.name like ?1

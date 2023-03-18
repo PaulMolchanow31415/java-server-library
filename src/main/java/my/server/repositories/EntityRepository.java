@@ -5,3 +5,4 @@ public interface EntityRepository<E> {
 
     void deleteByParam(String removed);
 }
+
