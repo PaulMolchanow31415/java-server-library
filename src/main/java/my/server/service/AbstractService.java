@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public abstract class AbstractService
         <T, R extends CrudRepository<T, Long> & EntityRepository<T>> {
-    private final R repository;
+    protected final R repository;
 
     public AbstractService(R repository) {
         this.repository = repository;
