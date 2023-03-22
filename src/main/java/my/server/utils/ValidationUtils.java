@@ -37,10 +37,10 @@ public class ValidationUtils {
             errorsMessage.append("Не правильно введен год издания\n");
         }
         if (authorId == null) {
-            errorsMessage.append("Поле автора не должно быть пустым\n");
+            errorsMessage.append("Поле автора не должно содержать сторонней информации кроме id\n");
         }
         if (publisherId == null) {
-            errorsMessage.append("Поле издательства не должно быть пустым\n");
+            errorsMessage.append("Поле издательства не должно содержать сторонней информации кроме id\n");
         }
 
         if (errorsMessage.length() > 0) {

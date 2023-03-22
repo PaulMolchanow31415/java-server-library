@@ -4,9 +4,7 @@ import my.server.entity.BookEntity;
 import my.server.response.BaseResponse;
 import my.server.response.BookEntityResponse;
 import my.server.response.BookListResponse;
-import my.server.service.AuthorService;
 import my.server.service.BookService;
-import my.server.service.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,45 +13,16 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("api/v1/book")
 public class BookController {
-    private final BookService bookService;
-    private final AuthorService authorService;
-    private final PublisherService publisherService;
+    private final BookService service;
 
-    public BookController(BookService bookService, AuthorService authorService, PublisherService publisherService) {
-        this.bookService = bookService;
-        this.authorService = authorService;
-        this.publisherService = publisherService;
-    }
-
-    @GetMapping("/all")
-    private ResponseEntity<BaseResponse> getAll() {
-        try {
-            return ResponseEntity.ok(new BookListResponse(bookService.getAll()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Взятие данных из БД завершено");
-        }
-    }
-
-    @GetMapping("/retrieveAll")
-    /* api/v1/book/retrieveAll?query=abc */
-    private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
-        try {
-            return ResponseEntity.ok(new BookListResponse(bookService.findAll(query)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Поиск данных в БД завершен");
-        }
+    public BookController(BookService service) {
+        this.service = service;
     }
 
     @PostMapping("/add")
     private ResponseEntity<BookEntityResponse> registration(@Valid @RequestBody BookEntity data) {
         try {
-            authorService.save(data.getAuthor());
-            publisherService.save(data.getPublisher());
-            bookService.save(data);
+            service.save(data);
             return ResponseEntity.ok(new BookEntityResponse(true, "Книга добавлена", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BookEntityResponse(false, e.getMessage(), null));
@@ -62,10 +31,32 @@ public class BookController {
         }
     }
 
-    @PutMapping("/update")
-    private ResponseEntity<BaseResponse> update(@RequestBody BookEntity data) {
+    @GetMapping("/all")
+    private ResponseEntity<BaseResponse> getAll() {
         try {
-            bookService.save(data);
+            return ResponseEntity.ok(new BookListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Извлечение данных из БД завершено");
+        }
+    }
+
+    @GetMapping("/retrieveAll")
+    private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
+        try {
+            return ResponseEntity.ok(new BookListResponse(service.findAll(query)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Поиск данных в БД завершен");
+        }
+    }
+
+    @PutMapping("/update")
+    private ResponseEntity<BaseResponse> update(@Valid @RequestBody BookEntity data) {
+        try {
+            service.save(data);
             return ResponseEntity.ok(new BaseResponse(true, "В книгу внесены изменения"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
@@ -78,7 +69,7 @@ public class BookController {
     private ResponseEntity<BaseResponse> delete(@RequestParam(required = false) Long id,
                                                 @RequestParam(required = false) String param) {
         try {
-            bookService.delete(id, param);
+            service.delete(id, param);
             return ResponseEntity.ok(new BaseResponse(true, "Книга удалена из БД"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));

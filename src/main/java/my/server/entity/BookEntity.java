@@ -1,8 +1,6 @@
 package my.server.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -11,9 +9,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "book")
@@ -42,4 +43,16 @@ public class BookEntity {
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "publisher_id")
     private PublisherEntity publisher;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BookEntity book)) return false;
+        return Objects.equals(title, book.title) && Objects.equals(section, book.section) && Objects.equals(origin, book.origin) && Objects.equals(yearPub, book.yearPub);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, section, origin, yearPub);
+    }
 }

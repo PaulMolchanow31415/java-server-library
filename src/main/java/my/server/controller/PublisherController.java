@@ -19,29 +19,6 @@ public class PublisherController {
         this.service = service;
     }
 
-    @GetMapping("/all")
-    private ResponseEntity<BaseResponse> getAll() {
-        try {
-            return ResponseEntity.ok(new PublisherListResponse(service.getAll()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Взятие данных из БД завершено");
-        }
-    }
-
-    @GetMapping("/retrieveAll")
-    /* api/v1/publisher/retrieveAll?query=abc */
-    private ResponseEntity<BaseResponse> extractData(@RequestParam String query) {
-        try {
-            return ResponseEntity.ok(new PublisherListResponse(service.findAll(query)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Поиск данных в БД завершен");
-        }
-    }
-
     @PostMapping("/add")
     private ResponseEntity<PublisherEntityResponse> create(@Valid @RequestBody PublisherEntity data) {
         try {
@@ -54,8 +31,30 @@ public class PublisherController {
         }
     }
 
+    @GetMapping("/all")
+    private ResponseEntity<BaseResponse> getAll() {
+        try {
+            return ResponseEntity.ok(new PublisherListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Извлечение данных из БД завершено");
+        }
+    }
+
+    @GetMapping("/retrieveAll")
+    private ResponseEntity<BaseResponse> extractData(@RequestParam String query) {
+        try {
+            return ResponseEntity.ok(new PublisherListResponse(service.findAll(query)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Поиск данных в БД завершен");
+        }
+    }
+
     @PutMapping("/update")
-    private ResponseEntity<BaseResponse> update(@RequestBody PublisherEntity data) {
+    private ResponseEntity<BaseResponse> update(@Valid @RequestBody PublisherEntity data) {
         try {
             service.save(data);
             return ResponseEntity.ok(new BaseResponse(true, "Издатель успешно изменен"));

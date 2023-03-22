@@ -19,29 +19,6 @@ public class AuthorController {
         this.service = service;
     }
 
-    @GetMapping("/retrieveAll")
-    private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
-        /* api/v1/author/retrieveSuitable?query=abc */
-        try {
-            return ResponseEntity.ok(new AuthorListResponse(service.findAll(query)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Поиск данных в БД завершен");
-        }
-    }
-
-    @GetMapping("/all")
-    private ResponseEntity<BaseResponse> getAll() {
-        try {
-            return ResponseEntity.ok(new AuthorListResponse(service.getAll()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
-        } finally {
-            System.out.println("Взятие данных из БД завершено");
-        }
-    }
-
     @PostMapping("/add")
     private ResponseEntity<AuthorEntityResponse> checkIn(@Valid @RequestBody AuthorEntity data) {
         try {
@@ -54,8 +31,30 @@ public class AuthorController {
         }
     }
 
+    @GetMapping("/all")
+    private ResponseEntity<BaseResponse> getAll() {
+        try {
+            return ResponseEntity.ok(new AuthorListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Извлечение данных из БД завершено");
+        }
+    }
+
+    @GetMapping("/retrieveAll")
+    private ResponseEntity<BaseResponse> retrieveAll(@RequestParam String query) {
+        try {
+            return ResponseEntity.ok(new AuthorListResponse(service.findAll(query)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        } finally {
+            System.out.println("Поиск данных в БД завершен");
+        }
+    }
+
     @PutMapping("/update")
-    private ResponseEntity<BaseResponse> update(@RequestBody AuthorEntity data) {
+    private ResponseEntity<BaseResponse> update(@Valid @RequestBody AuthorEntity data) {
         try {
             service.save(data);
             return ResponseEntity.ok(new BaseResponse(true, "Автор успешно изменен"));

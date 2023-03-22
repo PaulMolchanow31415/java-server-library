@@ -1,18 +1,19 @@
 package my.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "author")
@@ -32,5 +33,20 @@ public class AuthorEntity {
     private String patronymic;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", orphanRemoval = true)
+    @ToString.Exclude
     private Set<BookEntity> writtenBooks = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AuthorEntity author)) return false;
+        return Objects.equals(name, author.name)
+                && Objects.equals(surname, author.surname)
+                && Objects.equals(patronymic, author.patronymic);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, patronymic);
+    }
 }
