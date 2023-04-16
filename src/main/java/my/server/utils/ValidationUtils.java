@@ -6,7 +6,7 @@ import my.server.entity.PublisherEntity;
 import my.server.exception.ValidationException;
 
 public class ValidationUtils {
-    public static final String authorRegex = "^[A-Z|А-Я][a-z|а-я]{2,32}$";
+    public static final String authorRegex = "^[A-Z|А-Я][a-z|а-я]{3,32}$";
     public static final String yearRegex = "^\\d{4}$";
 
     public static void validate(BookEntity book) throws ValidationException {
@@ -30,7 +30,7 @@ public class ValidationUtils {
         if (section == null || section.isBlank() || section.length() < 3 || section.length() > 255) {
             errorsMessage.append("Не правильно введена секция\n");
         }
-        if (origin == null || origin.isBlank() || origin.length() < 3 || origin.length() > 255) {
+        if (origin == null || origin.isBlank() || origin.length() < 3 || origin.length() > 1000) {
             errorsMessage.append("Не правильно введено происхождение книги\n");
         }
         if (year == null || year.isBlank() || !year.matches(yearRegex)) {
@@ -63,6 +63,12 @@ public class ValidationUtils {
                 || author.getPatronymic().isBlank() || !author.getPatronymic().matches(authorRegex)) {
             errorsMessage.append("Не правильно введено отчество автора\n");
         }
+        if (author.getInfo() == null
+                || author.getInfo().isBlank()
+                || author.getInfo().length() < 3
+                || author.getInfo().length() > 1000) {
+            errorsMessage.append("Не правильно введена информация об авторе книги\n");
+        }
 
         if (errorsMessage.length() > 0) {
             throw new ValidationException(errorsMessage.toString());
@@ -79,6 +85,12 @@ public class ValidationUtils {
         if (publisher.getCity() == null || publisher.getCity().isBlank()
                 || publisher.getCity().length() < 3 || publisher.getCity().length() > 255) {
             errorsMessage.append("Не правильно введен город издателя\n");
+        }
+        if (publisher.getInfo() == null
+                || publisher.getInfo().isBlank()
+                || publisher.getInfo().length() < 3
+                || publisher.getInfo().length() > 1000) {
+            errorsMessage.append("Не правильно введена информация об издателе книги\n");
         }
 
         if (errorsMessage.length() > 0) {

@@ -29,10 +29,11 @@ public class BookEntity {
     @NotBlank(message = "Раздел книги не должен быть пустым или содержать только пробелы")
     @Size(min = 3, max = 255, message = "Размер от 3 до 255 символов")
     private String section;
-    @Size(min = 3, max = 255, message = "Размер от 3 до 255 символов")
-    private String origin;
     @Pattern(regexp = "^\\d{4}$", message = "В году издательства может быть только 4 цифры")
     private String yearPub;
+    @Column(length = 1000)
+    @Size(min = 3, max = 1000, message = "Размер происхождения от 3 до 1000 символов")
+    private String origin;
     @NotNull
     @ManyToOne
     @Cascade(CascadeType.SAVE_UPDATE)
@@ -48,11 +49,17 @@ public class BookEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BookEntity book)) return false;
-        return Objects.equals(title, book.title) && Objects.equals(section, book.section) && Objects.equals(origin, book.origin) && Objects.equals(yearPub, book.yearPub);
+        return Objects.equals(id, book.id)
+                && Objects.equals(title, book.title)
+                && Objects.equals(section, book.section)
+                && Objects.equals(yearPub, book.yearPub)
+                && Objects.equals(origin, book.origin)
+                && Objects.equals(author, book.author)
+                && Objects.equals(publisher, book.publisher);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, section, origin, yearPub);
+        return Objects.hash(id, title, section, yearPub, origin, author, publisher);
     }
 }

@@ -15,6 +15,7 @@ public interface PublisherEntityRepository
             select p from PublisherEntity p
             where p.name like ?1
             or p.city like ?1
+            or p.info like ?1
             """)
     Iterable<PublisherEntity> findAllByParam(String sought);
 
@@ -24,6 +25,7 @@ public interface PublisherEntityRepository
             delete from PublisherEntity p
             where p.name like ?1
             or p.city like ?1
+            or p.info like ?1
             """)
     void deleteByParam(String removed);
 }

@@ -27,6 +27,9 @@ public class PublisherEntity {
     private String name;
     @Size(min = 3, max = 255, message = "Длина названия города должена быть в диапазоне от 3 и 255 символов")
     private String city;
+    @Column(length = 1000)
+    @Size(min = 3, max = 1000, message = "Размер информации об издателе от 3 до 1000 символов")
+    private String info;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher", orphanRemoval = true)
     @ToString.Exclude
@@ -35,13 +38,16 @@ public class PublisherEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PublisherEntity publisher)) return false;
-        return Objects.equals(name, publisher.name)
-                && Objects.equals(city, publisher.city);
+        if (!(o instanceof PublisherEntity that)) return false;
+        return Objects.equals(id, that.id)
+                && Objects.equals(name, that.name)
+                && Objects.equals(city, that.city)
+                && Objects.equals(info, that.info)
+                && Objects.equals(publishedBooks, that.publishedBooks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, city);
+        return Objects.hash(id, name, city, info, publishedBooks);
     }
 }

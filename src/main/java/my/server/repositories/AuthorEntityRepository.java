@@ -16,6 +16,7 @@ public interface AuthorEntityRepository
             where a.name like ?1
             or a.surname like ?1
             or a.patronymic like ?1
+            or a.info like ?1
             """)
     Iterable<AuthorEntity> findAllByParam(String sought);
 
@@ -26,6 +27,7 @@ public interface AuthorEntityRepository
             where a.name like ?1
             or a.surname like ?1
             or a.patronymic like ?1
+            or a.info like ?1
             """)
     void deleteByParam(String removed);
 }
